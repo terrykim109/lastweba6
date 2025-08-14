@@ -6,21 +6,21 @@ import { favouritesAtom, searchHistoryAtom } from '@/store';
 import { getFavourites, getHistory } from '@/lib/userData';
 import { isAuthenticated } from '@/lib/authenticate';
 
-const PUBLIC_PATHS = ['/login', '/register'];
+const PUBLIC_PATHS = ['/login', '/register']; // allows access without login
 
 export default function RouteGuard({ children }) {
   const router = useRouter();
+  // jotai for favs and search history
   const [, setFavouritesList] = useAtom(favouritesAtom);
   const [, setSearchHistory] = useAtom(searchHistoryAtom);
 
   useEffect(() => {
-    
     updateAtoms();
-    
-    // Check authentication
+    // check authentication
     authCheck(router.pathname);
   }, []);
 
+  // updating atoms with user data
   async function updateAtoms() {
     try {
       if (isAuthenticated()) {

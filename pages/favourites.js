@@ -1,4 +1,3 @@
-//this works
 import { useAtom } from "jotai";
 import { favouritesAtom } from "@/store";
 import { Row, Col, Card } from "react-bootstrap";
@@ -10,8 +9,7 @@ export default function Favourites() {
   const [favouritesList, setFavouritesList] = useAtom(favouritesAtom);
   const [loading, setLoading] = useState(true);
 
-  // HYDRATE ATOM FROM API ON COMPONENT MOUNT
-  useEffect(() => {
+    useEffect(() => {
     const hydrateFavourites = async () => {
       try {
         const saved = await getFavourites();
@@ -19,20 +17,19 @@ export default function Favourites() {
         if (Array.isArray(saved)) {
           setFavouritesList(saved);
         } else {
-          // Ensure favouritesList is an empty array even if API returns no data
           setFavouritesList([]);
         }
       } catch (err) {
         console.error("Failed to load favourites:", err);
-        setFavouritesList([]); // Set to empty array on error as well
+        setFavouritesList([]); // set as empty array 
       } finally {
         setLoading(false);
       }
     };
     hydrateFavourites();
-  }, [setFavouritesList]); // The useEffect now depends on setFavouritesList
+  }, [setFavouritesList]); 
 
-  // Display a loading message while waiting for the API call
+  // loading message
   if (loading) {
     return (
       <Col>
@@ -47,7 +44,7 @@ export default function Favourites() {
     );
   }
 
-  // Once loading is complete, display the correct content
+  // after loading 
   return (
     <Row className="gy-4 mt-1">
       {favouritesList.length > 0 ? (

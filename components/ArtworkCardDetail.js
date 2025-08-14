@@ -8,6 +8,7 @@ import { favouritesAtom } from "@/store";
 import { addToFavourites, removeFromFavourites } from "@/lib/userData";
 
 export default function ArtworkCardDetail({ objectID }) {
+  // fetching artwork data using SWR
   const { data, error } = useSWR(
     objectID
       ? `https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`
@@ -17,6 +18,7 @@ export default function ArtworkCardDetail({ objectID }) {
   const [favouritesList, setFavouritesList] = useAtom(favouritesAtom);
   const [showAdded, setShowAdded] = useState(false);
 
+  // checking if already in the favourites
   useEffect(() => {
     setShowAdded(favouritesList?.includes(parseInt(objectID)));
   }, [favouritesList, objectID]);

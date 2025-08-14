@@ -15,7 +15,7 @@ export default function MainNav() {
   const [historyCount, setHistoryCount] = useState(0);
   const [userName, setUserName] = useState("");
 
-  const [token, setToken] = useAtom(tokenAtom);
+  const [token, setToken] = useAtom(tokenAtom); // using jotai for authentication state
   const isAuthenticated = token !== null;
 
   const router = useRouter();
@@ -26,20 +26,20 @@ export default function MainNav() {
       if (payload) {
         setUserName(payload.userName);
 
-        // Fetch favourites
+        // fetching favs
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/favourites`, {
           headers: { 
-            Authorization: `Bearer ${getToken()}` // Use getToken() instead of token state
+            Authorization: `Bearer ${getToken()}` 
           },
         })
           .then((res) => res.json())
           .then((data) => setFavouritesCount(Array.isArray(data) ? data.length : 0))
           .catch(() => setFavouritesCount(0));
 
-        // Fetch history
+        // fetching history
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/history`, {
           headers: { 
-            Authorization: `Bearer ${getToken()}` // Use getToken() instead of token state
+            Authorization: `Bearer ${getToken()}` 
           },
         })
           .then((res) => res.json())
@@ -53,6 +53,7 @@ export default function MainNav() {
     }
   }, [token, isAuthenticated]);
 
+  // for logout
   const logout = () => {
     setIsExpanded(false);
     removeToken();
@@ -60,7 +61,7 @@ export default function MainNav() {
     router.push("/login");
   };
 
-  // Fixed search function
+  // for search
   const submitForm = async (e) => {
     e.preventDefault();
     if (!searchField.trim()) return;
@@ -69,17 +70,16 @@ export default function MainNav() {
     
     try {
       if (isAuthenticated) {
-        // Persist search to backend
         const updatedHistory = await addToHistory(queryString);
         setSearchHistory(updatedHistory);
       } else {
-        // Update local state if not authenticated
+        // update local state when not authenticated
         setSearchHistory([...searchHistory, queryString]);
       }
       
       router.push(`/artwork?${queryString}`);
       setIsExpanded(false);
-      setSearchField(""); // Clear search field
+      setSearchField(""); 
     } catch (error) {
       console.error("Failed to save search history:", error);
     }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth, authenticateUser } from "@/lib/authenticate"; // Correct import of both
+import { useAuth, authenticateUser } from "@/lib/authenticate"; 
 import { useAtom } from "jotai";
 import { favouritesAtom, searchHistoryAtom } from "@/store";
 import { getFavourites, getHistory } from "@/lib/userData";
@@ -16,7 +16,7 @@ export default function Login() {
   const [favouritesList, setFavouritesList] = useAtom(favouritesAtom);
   const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
   const [isLoading, setIsLoading] = useState(false);
-  const { setToken } = useAuth(); // Destructure setToken from the useAuth hook
+  const { setToken } = useAuth(); 
 
   async function updateAtoms() {
     try {
@@ -40,10 +40,9 @@ export default function Login() {
     setWarning("");
 
     try {
-      // Call authenticateUser, which now returns the token string
+      // using authenticateUser, gives token string
       const token = await authenticateUser(user, password);
 
-      // Pass the returned token string to the hook's setToken function
       setToken(token); 
       await updateAtoms();
       router.push("/favourites");
@@ -72,7 +71,7 @@ export default function Login() {
             <Alert variant="danger" onClose={() => setWarning("")} dismissible>
               {warning}
               <div className="mt-2 text-muted small">
-                For assistance, contact support with error ID: {Date.now()}
+                Incorrect ID, try again.
               </div>
             </Alert>
           )}
