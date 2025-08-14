@@ -8,7 +8,7 @@
 * 
 *  Name: Hyun Joon Kim Student ID: 117639237 Date: 2025-08-13
 *
-*  Vercel App (Deployed) Link: _____________________________________________________
+*  Vercel App (Deployed) Link: https://lastweba6.vercel.app/
 *
 ********************************************************************************/ 
 
